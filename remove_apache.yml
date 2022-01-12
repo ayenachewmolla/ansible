@@ -1,0 +1,15 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install httpd package
+    yum:
+      name: httpd
+      state: absent
+
+  - name: add php support for apache
+    yum:
+      name: libapache2-mod-php
+      state: absent
