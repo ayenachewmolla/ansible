@@ -15,5 +15,5 @@
 
   - name: add php support for apache
     yum:
-      name: libapache2-mod-php
+      name: php
       state: latest
