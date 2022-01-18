@@ -1,1 +1,6 @@
+[web_servers]
 root@10.9.95.134 
+
+[db_servers]
+root@10.9.95.134
+

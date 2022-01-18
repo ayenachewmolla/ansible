@@ -1,0 +1,60 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (RHEL)
+    tags: always
+    yum:
+     update_only: yes
+     update_cache: yes
+    when: ansible_distribution == "Red Hat Enterprise Linux"
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: web_servers
+  become: true
+  tasks:
+
+  - name: install apache and php for Ubuntu servers
+    tags: apache,apache2,ubuntu
+    apt:
+      name: 
+        - apache2
+        - libapache2-mod-php  
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+      
+  - name: install apache and php for RHEL servers
+    tags: apache,Red Hat Enterprise Linux,httpd
+    yum:
+      name:
+        - httpd
+        - php
+      state: latest
+    when: ansible_distribution == "Red Hat Enterprise Linux"
+   
+- hosts: db_servers
+  become: true
+  tasks:
+
+  - name: install mariadb package (RHEL)
+    tags: Red Hat Enterprise Linux,db,mariadb
+    yum:
+      name: mariadb
+      state: latest
+    when: ansible_distribution == "Red Hat Enterprise Linux"
+
+  - name: install mariadb package (Ubuntu)
+    tags: db,mariadb,ubuntu
+    apt:
+      name: mariadb-server
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+  
